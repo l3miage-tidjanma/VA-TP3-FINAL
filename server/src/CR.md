@@ -22,3 +22,5 @@ Tester les fonctions nommées du repository CandidateRepository.
 - IMPORTANT ! Faire attention à la nature des relations, plus précisemment si elle est unidirectionnelle ou bidirectionnelle
   - c'est dans l'élément/attribut contenant @ManytoOne que l'on stocke notre "entité" (est-ce bien formumlé ?)
     - exemple : .candidateEntity(candidateEntity) (voir 'testFindAllByCandidateEvaluationGridEntitiesGradeLessThan()' CandidateRepositoryTest.java )
+
+## Question 2:
