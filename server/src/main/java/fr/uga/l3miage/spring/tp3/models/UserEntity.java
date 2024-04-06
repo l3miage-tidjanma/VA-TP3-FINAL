@@ -1,6 +1,7 @@
 package fr.uga.l3miage.spring.tp3.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Getter
 public abstract class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
