@@ -24,6 +24,16 @@
 - IMPORTANT ! Faire attention à la nature des relations, plus précisemment si elle est unidirectionnelle ou bidirectionnelle
   - c'est dans l'élément/attribut contenant @ManytoOne que l'on stocke notre "entité" (est-ce bien formumlé ?)
     - exemple : .candidateEntity(candidateEntity) (voir 'testFindAllByCandidateEvaluationGridEntitiesGradeLessThan()' CandidateRepositoryTest.java )
+  - aussi, toujours VIDER ses tables de la BD avant chaque test avec un repository.deleteAll():
+    - ex: 
+      @BeforeEach
+      @Transactional
+      public void cleanBDsetUp() {
+        repository.deleteAll();
+      }
+    - tq: 
+      - @BeforeEach est une annotation de JUnit 5 qui indique que la méthode annotée doit être exécutée avant chaque test dans la classe de test. Cela permet d'initialiser l'état nécessaire pour chaque test, par exemple en configurant des objets ou en effectuant des opérations de nettoyage dans la base de données avant chaque test.
+      - @Transactional est une annotation de Spring qui indique que la méthode annotée doit être exécutée dans le contexte d'une transaction. Dans le cas des tests, cela signifie que toutes les opérations effectuées dans cette méthode seront regroupées dans une seule transaction, et cette transaction sera annulée à la fin de la méthode (ce qui signifie que toutes les modifications apportées à la base de données seront annulées). Cela garantit que les tests ne modifient pas réellement la base de données, préservant ainsi l'intégrité des données et assurant que chaque test démarre avec un état de base de données propre.
 
 ## Question 2: 
 
@@ -35,6 +45,17 @@
 
 #### Récupération de la moyenne d'un candidat.
 - tester la fonction 'public Double getCandidateAverage(Long candidateId)' dans CandidateService.java
+- Ensuite pour le mapper, nous allons en faire un Spy (le comportement de base n'est pas alteré tant qu'il n'est pas redéfini, et cela nous permet de suivre le nombre d'appels fait sur le spy) avec l'annotation @SpyBean
 
 #### Création d'une session d'examen.
  - tester la fonction 'public SessionResponse createSession(SessionCreationRequest sessionCreationRequest)' dans SessionService.java
+
+#### Remarques: 
+- Les services ont souvent beaucoup de dépendances. Puisque nous voulons isoler le service testé de ses dépendants, ces dernières doivent toutes devenir des mock ou encore des spy
+  - et donc, de quel(s) Component aurais-je besoin dans chaque cas ?
+    - CandidateServiceTest:
+      - CandidateComponent 
+      - ExamComponent (besoin de tester ce component si on l'utilise ?)
+      
+    - SessionServiceTest:
+  - @MockBean ou @SpyBean ?
