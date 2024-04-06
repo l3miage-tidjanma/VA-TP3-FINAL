@@ -1,9 +1,9 @@
 package fr.uga.l3miage.spring.tp3.components;
 
 import fr.uga.l3miage.spring.tp3.models.EcosSessionEntity;
-import fr.uga.l3miage.spring.tp3.EcosSessionProgrammationRepository;
-import fr.uga.l3miage.spring.tp3.EcosSessionProgrammationStepRepository;
-import fr.uga.l3miage.spring.tp3.EcosSessionRepository;
+import fr.uga.l3miage.spring.tp3.repositories.EcosSessionProgrammationRepository;
+import fr.uga.l3miage.spring.tp3.repositories.EcosSessionProgrammationStepRepository;
+import fr.uga.l3miage.spring.tp3.repositories.EcosSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

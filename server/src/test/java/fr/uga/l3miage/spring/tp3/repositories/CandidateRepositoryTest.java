@@ -1,17 +1,23 @@
 package fr.uga.l3miage.spring.tp3.repositories;
 
-import fr.uga.l3miage.spring.tp3.enums.TestCenterCode;
 import fr.uga.l3miage.spring.tp3.models.CandidateEntity;
 import fr.uga.l3miage.spring.tp3.models.CandidateEvaluationGridEntity;
 import fr.uga.l3miage.spring.tp3.models.TestCenterEntity;
+import fr.uga.l3miage.spring.tp3.enums.TestCenterCode;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
+import java.util.Set;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
 public class CandidateRepositoryTest {
@@ -24,6 +30,14 @@ public class CandidateRepositoryTest {
 
     @Autowired
     private CandidateEvaluationGridRepository candidateEvaluationGridRepository ;
+
+    @BeforeEach
+    @Transactional
+    public void cleanBDsetUp() {
+        candidateRepository.deleteAll();
+        testCenterRepository.deleteAll();
+        candidateEvaluationGridRepository.deleteAll();
+    }
 
     @Test
     public void testFindAllByTestCenterEntityCode() {

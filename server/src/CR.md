@@ -1,7 +1,9 @@
 # Binôme: Rayane HADDAD, Manyl TIDJANI
 
+(c'est les questions/remarques que je me suis posé tout au long du tp) -> Manyl
+
 ## Question 1:
-Tester les fonctions nommées du repository CandidateRepository.
+### Tester les fonctions nommées du repository CandidateRepository.
 
 ### Mes questions/remarques
 - utiliser l'annotation @SpringBootTest() afin de nous permettre de faire de l'injection.
@@ -23,4 +25,16 @@ Tester les fonctions nommées du repository CandidateRepository.
   - c'est dans l'élément/attribut contenant @ManytoOne que l'on stocke notre "entité" (est-ce bien formumlé ?)
     - exemple : .candidateEntity(candidateEntity) (voir 'testFindAllByCandidateEvaluationGridEntitiesGradeLessThan()' CandidateRepositoryTest.java )
 
-## Question 2:
+## Question 2: 
+
+### Testez les endpoints complètement (Component, Service, Controller) :
+
+- déjà, il faut implémenter:
+  - CandidateServiceTest
+  - SessionServiceTest
+
+#### Récupération de la moyenne d'un candidat.
+- tester la fonction 'public Double getCandidateAverage(Long candidateId)' dans CandidateService.java
+
+#### Création d'une session d'examen.
+ - tester la fonction 'public SessionResponse createSession(SessionCreationRequest sessionCreationRequest)' dans SessionService.java
