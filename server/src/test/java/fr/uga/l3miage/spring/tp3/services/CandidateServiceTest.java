@@ -5,6 +5,7 @@ import fr.uga.l3miage.spring.tp3.components.ExamComponent;
 import fr.uga.l3miage.spring.tp3.exceptions.technical.CandidateNotFoundException;
 import fr.uga.l3miage.spring.tp3.models.CandidateEntity;
 import fr.uga.l3miage.spring.tp3.models.CandidateEvaluationGridEntity;
+import fr.uga.l3miage.spring.tp3.models.ExamEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Set;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,12 +31,6 @@ class CandidateServiceTest{
 
     @MockBean
     private CandidateComponent candidateComponent;
-
-    @MockBean
-    private ExamComponent examComponent;
-
-//    @SpyBean
-//    private ExamMapper examMapper;
 
     /*--------*/
     /* TESTS */
@@ -58,30 +54,37 @@ class CandidateServiceTest{
                 // ATTENTION: pas de set en BD !!! donc .candidateEvaluationGridEntities(Set<candidateEvaluationGridEntity>) pas possible !!
                 .build();
 
-        // sa grille d'évaluation
+        // son examen
+        ExamEntity examEntity = ExamEntity
+                .builder()
+                .weight(1)
+                .build();
+
+        // sa grille d'évaluation avec l'examen correspondant
         CandidateEvaluationGridEntity candidateEvaluationGridEntity = CandidateEvaluationGridEntity
                 .builder()
                 .sheetNumber(null)
                 .grade(10.5)
                 .submissionDate(null)
+                .examEntity(examEntity) // associer cette grille d'évaluation à l'examen créé précédemment
                 .candidateEntity(candidateEntity)   // OK: candidateEntity est un "attribut" (relation) contenant le @ManytoOne dans 'CandidateEntity'
                 .build();
 
-        // Simuler le comportement du repository pour retourner l'objet CandidateEntity
+        // mise à jour des associations bidirectionnelles !!!
+        examEntity.setCandidateEvaluationGridEntities(Set.of(candidateEvaluationGridEntity));
+        candidateEntity.setCandidateEvaluationGridEntities(Set.of(candidateEvaluationGridEntity));
+
+        // Simuler le comportement du repository pour retourner l'objet candidateEntity
         when(candidateComponent.getCandidatById(anyLong())).thenReturn(candidateEntity);
 
         // Simuler le comportement de la méthode getCandidateAverage de CandidateService
         Double expectedAverage = 10.5; // Définir la moyenne attendue
-        when(candidateService.getCandidateAverage(anyLong())).thenReturn(expectedAverage);
 
         // When //
         // Appel à la méthode testée 'getCandidateAverage'
         Double average = candidateService.getCandidateAverage(anyLong());
 
         // Then //
-        // Récupération de la note du candidat à partir de la grille d'évaluation
-        Double grade = candidateEvaluationGridEntity.getGrade();
-
         // Vérifie si la moyenne retournée par le service est égal à la moyenne attendue
         assertEquals(expectedAverage, average); // Vérifie si la moyenne retournée par le service est égale à la moyenne attendue
 

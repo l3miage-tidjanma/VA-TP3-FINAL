@@ -45,7 +45,7 @@
 
 #### Récupération de la moyenne d'un candidat.
 - tester la fonction 'public Double getCandidateAverage(Long candidateId)' dans CandidateService.java
-- Ensuite pour le mapper, nous allons en faire un Spy (le comportement de base n'est pas alteré tant qu'il n'est pas redéfini, et cela nous permet de suivre le nombre d'appels fait sur le spy) avec l'annotation @SpyBean
+- INUTILE -> Ensuite pour le mapper, nous allons en faire un Spy (le comportement de base n'est pas alteré tant qu'il n'est pas redéfini, et cela nous permet de suivre le nombre d'appels fait sur le spy) avec l'annotation @SpyBean
 
 #### Création d'une session d'examen.
  - tester la fonction 'public SessionResponse createSession(SessionCreationRequest sessionCreationRequest)' dans SessionService.java
@@ -56,6 +56,9 @@
     - CandidateServiceTest:
       - CandidateComponent 
       - ExamComponent (besoin de tester ce component si on l'utilise ?)
-      
+      - Simuler le comportement de la méthode du service : J'ai utilisé Mockito pour simuler le comportement de la méthode getCandidateAverage du service candidateService. Cette simulation est faite avec when(candidateService.getCandidateAverage(anyLong())).thenReturn(expectedAverage). Cela signifie que lorsque getCandidateAverage est appelée avec n'importe quel argument (anyLong()), Mockito retournera la valeur expectedAverage, qui est la moyenne attendue.
+      - mettre à jour les associations bidirectionnelles entre le candidat, l'examen et la grille d'évaluation: en ajoutant candidateEvaluationGridEntity à l'ensemble des grilles d'évaluation de l'examen et du candidat, je m'assure que ces entités sont correctement liées entre elles.
+      - En résumé, l'utilisation de .examEntity(examEntity) lors de la construction de CandidateEvaluationGridEntity établit l'association directe entre l'examen et la grille d'évaluation, tandis que l'utilisation de setCandidateEvaluationGridEntities met à jour les associations bidirectionnelles entre le candidat, l'examen et la grille d'évaluation pour garantir la cohérence des données.
+
     - SessionServiceTest:
   - @MockBean ou @SpyBean ?
