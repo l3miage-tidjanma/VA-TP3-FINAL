@@ -74,7 +74,7 @@ public class CandidateControllerTest {
 
         // When //
         // récupération de la moyenne a travers l'api
-        ResponseEntity<CandidateResponse> response = testRestTemplate.exchange("/api/candidates/{id}/average", HttpMethod.GET, new HttpEntity<>(null, headers), CandidateResponse.class, Map.of("id",9));
+        ResponseEntity<Double> response = testRestTemplate.exchange("/api/candidates/{id}/average", HttpMethod.GET, new HttpEntity<>(null, headers), Double.class, Map.of("id",9));
 
         // Then //
         // vérifier que le code statut est OK (=200)
