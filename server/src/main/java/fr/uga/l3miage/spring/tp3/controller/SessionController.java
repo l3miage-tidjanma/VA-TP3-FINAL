@@ -21,7 +21,7 @@ public class SessionController implements SessionEndpoints {
     }
 
     @Override
-    public Set<ExamResponse> changeState(Long idSession) {
-        return sessionService.changeState(idSession);
+    public Set<ExamResponse> changeState(Long sessionId) {
+        return sessionService.changeState(sessionId);
     }
 }
