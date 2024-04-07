@@ -20,4 +20,9 @@ public class SessionComponent {
         ecosSessionProgrammationRepository.save(entity.getEcosSessionProgrammationEntity());
         return ecosSessionRepository.save(entity);
     }
+
+    // méthode pour récupérer une session à partir de son Id
+    public EcosSessionEntity getSessionById(Long sessionId) {
+        return ecosSessionRepository.findById(sessionId).orElseThrow();
+    }
 }
