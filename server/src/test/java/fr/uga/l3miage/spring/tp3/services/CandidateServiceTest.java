@@ -1,7 +1,6 @@
 package fr.uga.l3miage.spring.tp3.services;
 
 import fr.uga.l3miage.spring.tp3.components.CandidateComponent;
-import fr.uga.l3miage.spring.tp3.components.ExamComponent;
 import fr.uga.l3miage.spring.tp3.exceptions.technical.CandidateNotFoundException;
 import fr.uga.l3miage.spring.tp3.models.CandidateEntity;
 import fr.uga.l3miage.spring.tp3.models.CandidateEvaluationGridEntity;
@@ -16,10 +15,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Set;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.when;
 
 @AutoConfigureTestDatabase
@@ -36,7 +33,7 @@ class CandidateServiceTest{
     /* TESTS */
     /*--------*/
 
-    /* Test 1: Récupération de la moyenne d'un candidat -> Double getCandidateAverage(Long candidateId) */
+    /* Description du test: Récupération de la moyenne d'un candidat -> Double getCandidateAverage(Long candidateId) */
     // Notes: utilisation de 'public CandidateEntity getCandidatById(Long id)' nécessaire
     @Test
     void getCandidateAverageByCandidateId() throws CandidateNotFoundException {
@@ -70,7 +67,7 @@ class CandidateServiceTest{
                 .candidateEntity(candidateEntity)   // OK: candidateEntity est un "attribut" (relation) contenant le @ManytoOne dans 'CandidateEntity'
                 .build();
 
-        // mise à jour des associations bidirectionnelles !!!
+        // mise à jour des associations bidirectionnelles !!! pour ma fausse BD H2
         examEntity.setCandidateEvaluationGridEntities(Set.of(candidateEvaluationGridEntity));
         candidateEntity.setCandidateEvaluationGridEntities(Set.of(candidateEvaluationGridEntity));
 
@@ -79,6 +76,7 @@ class CandidateServiceTest{
 
         // Simuler le comportement de la méthode getCandidateAverage de CandidateService
         Double expectedAverage = 10.5; // Définir la moyenne attendue
+        // when(candidateService.getCandidateAverage(anyLong())).thenReturn(expectedAverage); -> ne fonctionne pas, j'ai un peu de mal à comprendre pourquoi... Mais pas vraiment nécessaire
 
         // When //
         // Appel à la méthode testée 'getCandidateAverage'
